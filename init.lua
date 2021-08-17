@@ -1,5 +1,5 @@
 beautiflowers = {}
-local mpath = minetest.get_modpath("beautiflowers")
+local mpath = minetest.get_modpath(minetest.get_current_modname())
 
 beautiflowers.flowers ={
 
@@ -112,7 +112,7 @@ for i = 1, #flowers do
 	local name, dye, box = unpack(flowers[i])
     local desc = unpack(name:split("_"))
 
-    minetest.register_node("beautiflowers:"..name, {
+    minetest.register_node("hades_beautiflowers:"..name, {
 	    description = "Beauty "..desc,
 	    drawtype = "plantlike",
 	    waving = 1,
@@ -125,7 +125,7 @@ for i = 1, #flowers do
 	    walkable = false,
 	    buildable_to = true,
 	    groups = {snappy = 3, flower = 1, flora = 1, attached_node = 1, flammable = 1, beautiflowers = 1},
-	    sounds = default.node_sound_leaves_defaults(),
+	    sounds = hades_sounds.node_sound_leaves_defaults(),
 	    selection_box = {
 		    type = "fixed",
 		    fixed = box or {-2 / 16, -0.5, -2 / 16, 2 / 16, 3 / 16, 2 / 16},
@@ -135,10 +135,10 @@ for i = 1, #flowers do
     minetest.register_craft({
 	    output = "dye:"..dye.." 4",
 	    recipe = {
-		    {"beautiflowers:"..name}
+		    {"hades_beautiflowers:"..name}
 	    },
     })
 
 end
 
-dofile(mpath .. "/spawn.lua")
+--dofile(mpath .. "/spawn.lua")
