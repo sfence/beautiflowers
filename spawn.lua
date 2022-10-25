@@ -11,8 +11,9 @@ local flowers = beautiflowers.flowers
 local FLOWERS_AMOUNT = 5
 
 --Maximun height that you want to spawn flowers (min 1, max 30000)
-local MAX_HEIGHT = 30000
+local MAX_HEIGHT = 1000
 
+--[[
 local function register_pasto(name)
 
 	minetest.register_decoration({
@@ -72,6 +73,7 @@ local function register_flower(name)
 	})
 
 end
+--]]
 
 function beautiflowers.bonsai_spread(pos, node)
 	if minetest.get_node_light(pos, 0.5) > 3 then
@@ -80,10 +82,18 @@ function beautiflowers.bonsai_spread(pos, node)
 		end
 		return
 	end
+	local positions = minetest.find_nodes_in_area(
+		{x = pos.x - 3, y = pos.y - 2, z = pos.z - 3},
+		{x = pos.x + 3, y = pos.y + 1, z = pos.z + 3},
+		{"group:bonsai"})
+	if #positiions > 3 then
+		return
+	end
+  
 	local positions = minetest.find_nodes_in_area_under_air(
-		{x = pos.x - 1, y = pos.y - 2, z = pos.z - 1},
-		{x = pos.x + 1, y = pos.y + 1, z = pos.z + 1},
-		{"group:stone"})
+		{x = pos.x - 3, y = pos.y - 2, z = pos.z - 3},
+		{x = pos.x + 3, y = pos.y + 1, z = pos.z + 3},
+		{"hades_core:mossycobble","hades_core:gravel","hades_core:gravel_volcanic"})
 	if #positions == 0 then
 		return
 	end
@@ -96,7 +106,7 @@ end
 
 minetest.register_abm({
 	label = "Bonsai spread",
-	nodenames = {"beautiflowers:bonsai_1","beautiflowers:bonsai_2","beautiflowers:bonsai_3","beautiflowers:bonsai_4","beautiflowers:bonsai_5"},
+	nodenames = {"group:bonsai"},
 	interval = 11,
 	chance = 150,
 	action = function(...)
@@ -104,6 +114,7 @@ minetest.register_abm({
 	end,
 })
 
+--[[
 for i = 1, #flowers do
     local name = unpack(flowers[i])
     local aux = unpack(name:split("_"))
@@ -120,3 +131,5 @@ for i = 1, #flowers do
 
 
 end
+--]]
+

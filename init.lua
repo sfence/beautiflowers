@@ -111,6 +111,13 @@ local flowers = beautiflowers.flowers
 for i = 1, #flowers do
 	local name, dye, box = unpack(flowers[i])
     local desc = unpack(name:split("_"))
+    
+	  local groups = {snappy = 3, flower = 1, attached_node = 1, flammable = 1, beautiflowers = 1}
+    if desc == "bonsai" then
+      groups.bonsai = 1
+    else
+      groups.flora = 1
+    end
 
     minetest.register_node("hades_beautiflowers:"..name, {
 	    description = "Beauty "..desc,
@@ -124,7 +131,7 @@ for i = 1, #flowers do
 	    sunlight_propagates = true,
 	    walkable = false,
 	    buildable_to = true,
-	    groups = {snappy = 3, flower = 1, flora = 1, attached_node = 1, flammable = 1, beautiflowers = 1},
+	    groups = groups,
 	    sounds = hades_sounds.node_sound_leaves_defaults(),
 	    selection_box = {
 		    type = "fixed",
@@ -133,7 +140,7 @@ for i = 1, #flowers do
     })
 
     minetest.register_craft({
-	    output = "dye:"..dye.." 4",
+	    output = "hades_dye:"..dye.." 4",
 	    recipe = {
 		    {"hades_beautiflowers:"..name}
 	    },
@@ -141,4 +148,4 @@ for i = 1, #flowers do
 
 end
 
---dofile(mpath .. "/spawn.lua")
+dofile(mpath .. "/spawn.lua")
